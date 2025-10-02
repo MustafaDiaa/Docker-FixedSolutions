@@ -3,8 +3,7 @@ const Cart = require('../models/Cart');
 const Purchase = require('../models/Purchase');
 const mongoose = require('mongoose');
 
-// Create Purchase (buy all items in user's cart)
-exports.createPurchase = async (req, res) => {
+const createPurchase = async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -73,9 +72,7 @@ exports.createPurchase = async (req, res) => {
   }
 };
 
-
-// Get current user's purchases
-exports.getUserPurchases = async (req, res) => {
+const getUserPurchases = async (req, res) => {
   try {
     const purchases = await Purchase.find({ user: req.user.id }).populate('book');
     res.json(purchases);
@@ -84,12 +81,17 @@ exports.getUserPurchases = async (req, res) => {
   }
 };
 
-// Admin: get all purchases
-exports.getAllPurchases = async (req, res) => {
+const getAllPurchases = async (req, res) => {
   try {
     const purchases = await Purchase.find().populate('user').populate('book');
     res.json(purchases);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+module.exports = {
+  createPurchase,
+  getUserPurchases,
+  getAllPurchases
 };

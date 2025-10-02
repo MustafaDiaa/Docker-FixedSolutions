@@ -143,10 +143,7 @@ const changePassword = async (req, res) => {
   }
 };
 
-/**
- * Delete user by ID
- * Only rootAdmins can access
- */
+
 const deleteUser = async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
@@ -157,10 +154,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-/**
- * Get all SubAdmins
- * Only rootAdmins can access
- */
 const getAllSubAdmins = async (req, res) => {
   try {
     const subAdmins = await User.find({ role: 'subAdmin' }).select('-password');
@@ -171,9 +164,6 @@ const getAllSubAdmins = async (req, res) => {
   }
 };
 
-/**
- * Get SubAdmin by ID
- */
 const getSubAdminById = async (req, res) => {
   try {
     const subAdmin = await User.findOne({ _id: req.params.id, role: 'subAdmin' }).select('-password');
@@ -185,10 +175,6 @@ const getSubAdminById = async (req, res) => {
   }
 };
 
-/**
- * Create SubAdmin
- * Only rootAdmins can create
- */
 const createSubAdmin = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -217,9 +203,6 @@ const createSubAdmin = async (req, res) => {
   }
 };
 
-/**
- * Update SubAdmin
- */
 const updateSubAdmin = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -240,9 +223,6 @@ const updateSubAdmin = async (req, res) => {
   }
 };
 
-/**
- * Delete SubAdmin
- */
 const deleteSubAdmin = async (req, res) => {
   try {
     const subAdmin = await User.findOneAndDelete({ _id: req.params.id, role: 'subAdmin' });

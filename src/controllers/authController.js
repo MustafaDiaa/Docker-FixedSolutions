@@ -11,8 +11,7 @@ const SALT_ROUNDS = 12;
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
 const JWT_EXPIRES_IN = '1h';
 
-// Signup (register) - creates user, sends confirmation email
-exports.signup = async (req, res) => {
+const signup = async (req, res) => {
   try {
     const { name, email, password, phone, dateOfBirth, city, address } = req.body;
 
@@ -49,8 +48,7 @@ exports.signup = async (req, res) => {
   }
 };
 
-// Confirm Email
-exports.confirmEmail = async (req, res) => {
+const confirmEmail = async (req, res) => {
   try {
     const { token } = req.query;
     if (!token) return res.status(400).json({ message: 'Token required' });
@@ -75,8 +73,7 @@ exports.confirmEmail = async (req, res) => {
   }
 };
 
-// Login -> returns access token, sets refresh token cookie and persists refresh token
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ message: 'Missing credentials' });
@@ -114,8 +111,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// Refresh tokens endpoint
-exports.refreshToken = async (req, res) => {
+const refreshToken = async (req, res) => {
   try {
     const token = req.cookies?.refreshToken || req.body.refreshToken;
     if (!token) return res.status(401).json({ message: 'Refresh token required' });
@@ -158,8 +154,7 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
-// Logout (revoke refresh token)
-exports.logout = async (req, res) => {
+const logout = async (req, res) => {
   try {
     const token = req.cookies?.refreshToken || req.body.refreshToken;
     if (token) {
@@ -175,7 +170,7 @@ exports.logout = async (req, res) => {
   }
 };
 
-exports.requestPasswordReset = async (req, res) => {
+const requestPasswordReset = async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -206,11 +201,7 @@ exports.requestPasswordReset = async (req, res) => {
   }
 };
 
-/**
- * Reset Password
- * User provides token & new password => verify token => update password
- */
-exports.resetPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
 
@@ -248,8 +239,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
-// Get all SubAdmins
-exports.getAllSubAdmins = async (req, res) => {
+const getAllSubAdmins = async (req, res) => {
   try {
     const subAdmins = await User.find({ role: 'subAdmin' }).select('-password'); // hide password
     return res.json(subAdmins);
@@ -259,8 +249,7 @@ exports.getAllSubAdmins = async (req, res) => {
   }
 };
 
-// Get SubAdmin by ID
-exports.getSubAdminById = async (req, res) => {
+const getSubAdminById = async (req, res) => {
   try {
     const subAdmin = await User.findOne({ _id: req.params.id, role: 'subAdmin' }).select('-password');
     if (!subAdmin) {
@@ -273,8 +262,7 @@ exports.getSubAdminById = async (req, res) => {
   }
 };
 
-// Create SubAdmin
-exports.createSubAdmin = async (req, res) => {
+const createSubAdmin = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -315,8 +303,7 @@ exports.createSubAdmin = async (req, res) => {
   }
 };
 
-// Update SubAdmin
-exports.updateSubAdmin = async (req, res) => {
+const updateSubAdmin = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -350,8 +337,7 @@ exports.updateSubAdmin = async (req, res) => {
   }
 };
 
-// Delete SubAdmin
-exports.deleteSubAdmin = async (req, res) => {
+const deleteSubAdmin = async (req, res) => {
   try {
     const subAdmin = await User.findOneAndDelete({ _id: req.params.id, role: 'subAdmin' });
     if (!subAdmin) {
@@ -363,4 +349,19 @@ exports.deleteSubAdmin = async (req, res) => {
     console.error('Error deleting subAdmin:', err);
     return res.status(500).json({ message: 'Server error' });
   }
+};
+
+module.exports = {
+  signup,
+  confirmEmail,
+  login,
+  refreshToken,
+  logout,
+  requestPasswordReset,
+  resetPassword,
+  getAllSubAdmins,
+  getSubAdminById,
+  createSubAdmin,
+  updateSubAdmin,
+  deleteSubAdmin
 };

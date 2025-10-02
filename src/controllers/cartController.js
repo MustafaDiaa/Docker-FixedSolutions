@@ -1,8 +1,7 @@
 const Cart = require('../models/Cart');
 const Book = require('../models/Book');
 
-// Get user's cart
-exports.getCart = async (req, res) => {
+const getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user.id }).populate('items.book');
     if (!cart) return res.status(200).json({ items: [] }); // empty cart
@@ -12,8 +11,7 @@ exports.getCart = async (req, res) => {
   }
 };
 
-// Add book to cart
-exports.addToCart = async (req, res) => {
+const addToCart = async (req, res) => {
   try {
     const { bookId, quantity } = req.body;
     const book = await Book.findById(bookId);
@@ -53,8 +51,7 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-// Update book quantity in cart
-exports.updateCartItem = async (req, res) => {
+const updateCartItem = async (req, res) => {
   try {
     const { bookId, quantity } = req.body;
     const book = await Book.findById(bookId);
@@ -82,9 +79,7 @@ exports.updateCartItem = async (req, res) => {
   }
 };
 
-
-// Remove a book from cart
-exports.removeFromCart = async (req, res) => {
+const removeFromCart = async (req, res) => {
   try {
     const { bookId } = req.params;
     const cart = await Cart.findOne({ user: req.user.id });
@@ -98,4 +93,11 @@ exports.removeFromCart = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+module.exports = {
+  getCart,
+  addToCart,
+  updateCartItem,
+  removeFromCart
 };
