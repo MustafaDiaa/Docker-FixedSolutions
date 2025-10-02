@@ -37,6 +37,19 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  const status = err.status || 500;
+
+  res.status(status).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+    ...(err.details && { errors: err.details }) // only add details if present
+  });
+});
+
+
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);

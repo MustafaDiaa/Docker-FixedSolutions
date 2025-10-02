@@ -6,13 +6,13 @@ const { buildResetPasswordEmail } = require('../utils/email/resetPasswordTemplat
 const { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../utils/jwt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const asyncHandler = require('../utils/asyncHandler');
 
 const SALT_ROUNDS = 12;
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
 const JWT_EXPIRES_IN = '1h';
 
-const signup = async (req, res) => {
-  try {
+const signup = asyncHandler(async (req, res) => {
     const { name, email, password, phone, dateOfBirth, city, address } = req.body;
 
     if (!name || !email || !password) return res.status(400).json({ message: 'Missing required fields' });
@@ -42,14 +42,9 @@ const signup = async (req, res) => {
     });
 
     return res.status(201).json({ message: 'Account created. Please check your email to confirm.' });
-  } catch (err) {
-    console.error('Signup error:', err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
+});
 
-const confirmEmail = async (req, res) => {
-  try {
+const confirmEmail = asyncHandler( async (req, res) => {
     const { token } = req.query;
     if (!token) return res.status(400).json({ message: 'Token required' });
 
@@ -67,21 +62,15 @@ const confirmEmail = async (req, res) => {
 
     // Optionally redirect to front-end confirmation page:
     return res.status(200).json({ message: 'Email confirmed. You can now login.' });
-  } catch (err) {
-    console.error('Confirm email error:', err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
+});
 
-const login = async (req, res) => {
-  try {
+const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ message: 'Missing credentials' });
 
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
-    // Ensure email confirmed (optional)
     if (!user.isEmailConfirmed) return res.status(403).json({ message: 'Please confirm your email first.' });
 
     const valid = await bcrypt.compare(password, user.password);
@@ -105,14 +94,9 @@ const login = async (req, res) => {
     });
 
     return res.json({ accessToken, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
-  } catch (err) {
-    console.error('Login error:', err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
+});
 
-const refreshToken = async (req, res) => {
-  try {
+const refreshToken = asyncHandler(async (req, res) => {
     const token = req.cookies?.refreshToken || req.body.refreshToken;
     if (!token) return res.status(401).json({ message: 'Refresh token required' });
 
@@ -148,14 +132,9 @@ const refreshToken = async (req, res) => {
     });
 
     return res.json({ accessToken: newAccessToken });
-  } catch (err) {
-    console.error('Refresh token error:', err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
+})
 
-const logout = async (req, res) => {
-  try {
+const logout = asyncHandler(async (req, res) => {
     const token = req.cookies?.refreshToken || req.body.refreshToken;
     if (token) {
       // remove token from user
@@ -164,14 +143,9 @@ const logout = async (req, res) => {
 
     res.clearCookie('refreshToken');
     return res.json({ message: 'Logged out' });
-  } catch (err) {
-    console.error('Logout error:', err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
+});
 
-const requestPasswordReset = async (req, res) => {
-  try {
+const requestPasswordReset = asyncHandler(async (req, res) => {
     const { email } = req.body;
 
     if (!email) return res.status(400).json({ message: 'Email is required' });
@@ -194,15 +168,9 @@ const requestPasswordReset = async (req, res) => {
     await transporter.sendEmail({ to: user.email, subject, html });
 
     return res.json({ message: 'Password reset email sent successfully' });
+})
 
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
-
-const resetPassword = async (req, res) => {
-  try {
+const resetPassword = asyncHandler(async (req, res) => {
     const { token, newPassword } = req.body;
 
     if (!token || !newPassword) {
@@ -232,24 +200,14 @@ const resetPassword = async (req, res) => {
     await user.save();
 
     return res.json({ message: 'Password has been reset successfully' });
+})
 
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
-
-const getAllSubAdmins = async (req, res) => {
-  try {
+const getAllSubAdmins = asyncHandler(async (req, res) => {
     const subAdmins = await User.find({ role: 'subAdmin' }).select('-password'); // hide password
     return res.json(subAdmins);
-  } catch (err) {
-    console.error('Error fetching subAdmins:', err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
+});
 
-const getSubAdminById = async (req, res) => {
+const getSubAdminById = asyncHandler(async (req, res) => {
   try {
     const subAdmin = await User.findOne({ _id: req.params.id, role: 'subAdmin' }).select('-password');
     if (!subAdmin) {
@@ -260,10 +218,9 @@ const getSubAdminById = async (req, res) => {
     console.error('Error fetching subAdmin:', err);
     return res.status(500).json({ message: 'Server error' });
   }
-};
+});
 
-const createSubAdmin = async (req, res) => {
-  try {
+const createSubAdmin = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
@@ -297,14 +254,9 @@ const createSubAdmin = async (req, res) => {
         role: subAdmin.role
       }
     });
-  } catch (err) {
-    console.error('Error creating subAdmin:', err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
+});
 
-const updateSubAdmin = async (req, res) => {
-  try {
+const updateSubAdmin = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
     const subAdmin = await User.findOne({ _id: req.params.id, role: 'subAdmin' });
@@ -331,25 +283,16 @@ const updateSubAdmin = async (req, res) => {
         role: subAdmin.role
       }
     });
-  } catch (err) {
-    console.error('Error updating subAdmin:', err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
+  })
 
 const deleteSubAdmin = async (req, res) => {
-  try {
     const subAdmin = await User.findOneAndDelete({ _id: req.params.id, role: 'subAdmin' });
     if (!subAdmin) {
       return res.status(404).json({ message: 'SubAdmin not found' });
     }
 
     return res.json({ message: 'SubAdmin deleted successfully' });
-  } catch (err) {
-    console.error('Error deleting subAdmin:', err);
-    return res.status(500).json({ message: 'Server error' });
   }
-};
 
 module.exports = {
   signup,
