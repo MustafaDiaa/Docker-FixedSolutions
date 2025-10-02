@@ -2,41 +2,123 @@
 	"info": {
 		"_postman_id": "52fb0827-64c4-4d4e-a23a-052a83b76b06",
 		"name": "Fixed Solutions Internship",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "14223219"
 	},
 	"item": [
 		{
-			"name": "Docker",
+			"name": "Bookly Store",
 			"item": [
 				{
-					"name": "Task 1",
+					"name": "Authentication",
 					"item": [
 						{
-							"name": "Create User",
+							"name": "Sign Up",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"ALice\",\n    \"email\": \"alice@gmail.com\"\n}",
+									"raw": "{\n    \"name\": \"Mustafa\",\n    \"email\": \"mustafadiaa22@gmail.com\",\n    \"password\": \"Mustafa@123\",\n    \"phone\": \"01098564683\",\n    \"city\": \"Cairo\",\n    \"address\": \"Sheraton Heliopolis, Cairo - Egypt\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": {
-									"raw": "http://localhost:3000/users",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"users"
-									]
-								}
+								"url": "http://localhost:5000/auth/signup"
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"mustafadiaa22@gmail.com\",\n    \"password\": \"Mustafa@1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/auth/login"
+							},
+							"response": []
+						},
+						{
+							"name": "Request Password Reset",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"mustafadiaa22@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/auth/request-password-reset"
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsImlhdCI6MTc1OTM0NzY2MCwiZXhwIjoxNzU5MzUxMjYwfQ.eseF86E55MsycWMVnhhgMm3_SoABApotve1qcaUpEVk\",\n    \"newPassword\": \"Mustafa@1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/auth/reset-password"
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "http://localhost:5000/auth/logout"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User CRUD (By Admins)",
+					"item": [
+						{
+							"name": "Create User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTQ0ODEsImV4cCI6MTc1OTM1NTM4MX0.IW_I3Qfm6cKkYWvVoLPPBqAkita9L12AnLxjGw39UBs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Amr\",\n    \"email\": \"amr@gmail.com\",\n    \"password\": \"Amr@123\",\n    \"phone\": \"01098564683\",\n    \"city\": \"Cairo\",\n    \"address\": \"Sheraton Heliopolis, Cairo - Egypt\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/users"
 							},
 							"response": []
 						},
@@ -44,18 +126,14 @@
 							"name": "Get All Users",
 							"request": {
 								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:3000/users",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"users"
-									]
-								}
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTg1ODcsImV4cCI6MTc1OTM1OTQ4N30.5MIe3xJGNG2WbUKRhfiPgmUQq7m2Kq1QVWbpQxEneHM",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:5000/users"
 							},
 							"response": []
 						},
@@ -64,18 +142,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": {
-									"raw": "http://localhost:3000/users/1",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"users",
-										"1"
-									]
-								}
+								"url": "http://localhost:5000/users/68dd9edc499601e0e68bd909"
 							},
 							"response": []
 						},
@@ -86,25 +153,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Mustafa Updated\",\n    \"email\": \"mustafadiaa22@gmail.com\"\n}",
+									"raw": "{\n    \"name\": \"Ramy Updated\",\n    \"email\": \"ramy@gmail.com\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": {
-									"raw": "http://localhost:3000/users/1",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"users",
-										"1"
-									]
-								}
+								"url": "http://localhost:5000/users/68dd9edc499601e0e68bd909"
 							},
 							"response": []
 						},
@@ -113,18 +169,468 @@
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"url": {
-									"raw": "http://localhost:3000/users/2",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"users",
-										"2"
-									]
-								}
+								"url": "http://localhost:5000/users/68dd9edc499601e0e68bd909"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin CRUD (by rootAdmin)",
+					"item": [
+						{
+							"name": "Get All subAdmins",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5MWJlMzM1MGZjMmNhMDE3YzRjMCIsInJvbGUiOiJyb290QWRtaW4iLCJlbWFpbCI6ImFkbWlubXVzdGFmYUBib29rbHkuY29tIiwiaWF0IjoxNzU5MzUyNTYwLCJleHAiOjE3NTkzNTM0NjB9.jlneHWe3BQf3gXfDnUoSyGv4DLf1HCq3DDOKtNWRGAI",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:5000/admins"
+							},
+							"response": []
+						},
+						{
+							"name": "Get subAdmin by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTMxNDksImV4cCI6MTc1OTM1NDA0OX0.C9gHogomrI8unHWIMCg3mr8kqEdARKs01dYdzXoLNRo",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:5000/admins/68dd97c82ac88255be8de231"
+							},
+							"response": []
+						},
+						{
+							"name": "Create subAdmin",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5MWJlMzM1MGZjMmNhMDE3YzRjMCIsInJvbGUiOiJyb290QWRtaW4iLCJlbWFpbCI6ImFkbWlubXVzdGFmYUBib29rbHkuY29tIiwiaWF0IjoxNzU5MzUyNTYwLCJleHAiOjE3NTkzNTM0NjB9.jlneHWe3BQf3gXfDnUoSyGv4DLf1HCq3DDOKtNWRGAI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"aliAdmin@bookly.com\",\n    \"name\": \"Ali\",\n    \"password\": \"Ali@123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/admins"
+							},
+							"response": []
+						},
+						{
+							"name": "Update subAdmin",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5MWJlMzM1MGZjMmNhMDE3YzRjMCIsInJvbGUiOiJyb290QWRtaW4iLCJlbWFpbCI6ImFkbWlubXVzdGFmYUBib29rbHkuY29tIiwiaWF0IjoxNzU5MzUyNTYwLCJleHAiOjE3NTkzNTM0NjB9.jlneHWe3BQf3gXfDnUoSyGv4DLf1HCq3DDOKtNWRGAI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"adminRamy@bookly.com\",\n    \"name\": \"Ramy\",\n    \"password\": \"Ramy@123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/admins/68dd97c82ac88255be8de231"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete subAdmin",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5MWJlMzM1MGZjMmNhMDE3YzRjMCIsInJvbGUiOiJyb290QWRtaW4iLCJlbWFpbCI6ImFkbWlubXVzdGFmYUBib29rbHkuY29tIiwiaWF0IjoxNzU5MzUyNTYwLCJleHAiOjE3NTkzNTM0NjB9.jlneHWe3BQf3gXfDnUoSyGv4DLf1HCq3DDOKtNWRGAI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "http://localhost:5000/admins/68dd98ee753d11feeed10312"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Books CRUD",
+					"item": [
+						{
+							"name": "Get all Books",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTQ0ODEsImV4cCI6MTc1OTM1NTM4MX0.IW_I3Qfm6cKkYWvVoLPPBqAkita9L12AnLxjGw39UBs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Amr\",\n    \"email\": \"amr@gmail.com\",\n    \"password\": \"Amr@123\",\n    \"phone\": \"01098564683\",\n    \"city\": \"Cairo\",\n    \"address\": \"Sheraton Heliopolis, Cairo - Egypt\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/books"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Book by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTQ0ODEsImV4cCI6MTc1OTM1NTM4MX0.IW_I3Qfm6cKkYWvVoLPPBqAkita9L12AnLxjGw39UBs",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:5000/books/68ddabe597fbcdff28b093df"
+							},
+							"response": []
+						},
+						{
+							"name": "Add a new Book",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNjIxOTcsImV4cCI6MTc1OTM2MzA5N30.It6KXDbx5HmcfFZPit35zzXCcI8h27HfUf5Oa10TiQ8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n    \"title\": \"The Great Gatsby\",\n    \"author\": \"F. Scott Fitzgerald\",\n    \"description\": \"A classic novel about the American Dream.\",\n    \"price\": 19.99,\n    \"stock\": 10,\n    \"publishedDate\": \"1925-04-10\",\n    \"category\": \"Fiction\"\n  },\n  {\n    \"title\": \"To Kill a Mockingbird\",\n    \"author\": \"Harper Lee\",\n    \"description\": \"A novel about racial injustice in the Deep South.\",\n    \"price\": 14.99,\n    \"stock\": 15,\n    \"publishedDate\": \"1960-07-11\",\n    \"category\": \"Classic\"\n  },\n  {\n    \"title\": \"1984\",\n    \"author\": \"George Orwell\",\n    \"description\": \"A dystopian story about totalitarianism.\",\n    \"price\": 12.5,\n    \"stock\": 8,\n    \"publishedDate\": \"1949-06-08\",\n    \"category\": \"Dystopian\"\n  },\n  {\n    \"title\": \"Pride and Prejudice\",\n    \"author\": \"Jane Austen\",\n    \"description\": \"A romantic novel about manners and marriage.\",\n    \"price\": 10.99,\n    \"stock\": 20,\n    \"publishedDate\": \"1813-01-28\",\n    \"category\": \"Romance\"\n  }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/books"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Book",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTc4NzgsImV4cCI6MTc1OTM1ODc3OH0.NkZoEuFyTOI9tgOQxeiWZe92H1B32bRa_niVJAWvAG0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Brave New World Updated\",\n    \"author\": \"Aldous Huxley Updated\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/books/68ddabe597fbcdff28b093df"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Books",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTgwODgsImV4cCI6MTc1OTM1ODk4OH0.pjKkiO-FkVv2xrLQovrmGNhnlCCY_0wXZhzy18LxxeU",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:5000/books/68ddabe597fbcdff28b093df"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Auth User Profile",
+					"item": [
+						{
+							"name": "Get Current User",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJtdXN0YWZhZGlhYTIyQGdtYWlsLmNvbSIsImlhdCI6MTc1OTM2Mzg2MSwiZXhwIjoxNzU5MzY0NzYxfQ.DWKLL-PS8zUlUsbo7gYmDLhOBp14meB0-WIPnuO8UPQ",
+										"type": "text"
+									}
+								],
+								"url": "http://localhost:5000/users/me"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Current User",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTg3MzYsImV4cCI6MTc1OTM1OTYzNn0.WqmVkS0_3Eg5kkwSgvEbnqowDwuCSYXQ6y1TaPC7M4U",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"role\": \"rootAdmin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/users/me"
+							},
+							"response": []
+						},
+						{
+							"name": "Change Current User Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ5N2M4MmFjODgyNTViZThkZTIzMSIsInJvbGUiOiJzdWJBZG1pbiIsImVtYWlsIjoiYWRtaW5yYW15QGJvb2tseS5jb20iLCJpYXQiOjE3NTkzNTc4NzgsImV4cCI6MTc1OTM1ODc3OH0.NkZoEuFyTOI9tgOQxeiWZe92H1B32bRa_niVJAWvAG0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"oldPassword\": \"\",\n    \"newPassword\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/users/me"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Current User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:5000/users/me"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cart CRUD",
+					"item": [
+						{
+							"name": "Get Cart",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJtdXN0YWZhZGlhYTIyQGdtYWlsLmNvbSIsImlhdCI6MTc1OTM2Mzg2MSwiZXhwIjoxNzU5MzY0NzYxfQ.DWKLL-PS8zUlUsbo7gYmDLhOBp14meB0-WIPnuO8UPQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/cart/"
+							},
+							"response": []
+						},
+						{
+							"name": "Add Items to Cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJtdXN0YWZhZGlhYTIyQGdtYWlsLmNvbSIsImlhdCI6MTc1OTM2MjA3MCwiZXhwIjoxNzU5MzYyOTcwfQ.63niv9_DiO3s0R5ydO12vgCv-hiU1zzu5iO-LO_kCUQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bookId\": \"68ddbca9c0c520b81fa20039\",\n    \"quantity\": \"5\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/cart"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Cart Item Quantity",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJtdXN0YWZhZGlhYTIyQGdtYWlsLmNvbSIsImlhdCI6MTc1OTM2MjA3MCwiZXhwIjoxNzU5MzYyOTcwfQ.63niv9_DiO3s0R5ydO12vgCv-hiU1zzu5iO-LO_kCUQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bookId\": \"68ddbca9c0c520b81fa20039\",\n    \"quantity\": \"5\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/cart/"
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Item from Cart",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJtdXN0YWZhZGlhYTIyQGdtYWlsLmNvbSIsImlhdCI6MTc1OTM2MjA3MCwiZXhwIjoxNzU5MzYyOTcwfQ.63niv9_DiO3s0R5ydO12vgCv-hiU1zzu5iO-LO_kCUQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:5000/cart/68ddbca9c0c520b81fa20039"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Purchase Items",
+					"item": [
+						{
+							"name": "Purchase Books in Cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJtdXN0YWZhZGlhYTIyQGdtYWlsLmNvbSIsImlhdCI6MTc1OTM2Mzg2MSwiZXhwIjoxNzU5MzY0NzYxfQ.DWKLL-PS8zUlUsbo7gYmDLhOBp14meB0-WIPnuO8UPQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "http://localhost:5000/purchases"
+							},
+							"response": []
+						},
+						{
+							"name": "View own Purchase",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJtdXN0YWZhZGlhYTIyQGdtYWlsLmNvbSIsImlhdCI6MTc1OTM2Mzg2MSwiZXhwIjoxNzU5MzY0NzYxfQ.DWKLL-PS8zUlUsbo7gYmDLhOBp14meB0-WIPnuO8UPQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "http://localhost:5000/purchases/my"
+							},
+							"response": []
+						},
+						{
+							"name": "Admins view All Purchases",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGQ2ZWJhZjU4OWM5N2U2ZDI2NmNhYyIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJtdXN0YWZhZGlhYTIyQGdtYWlsLmNvbSIsImlhdCI6MTc1OTM2Mzg2MSwiZXhwIjoxNzU5MzY0NzYxfQ.DWKLL-PS8zUlUsbo7gYmDLhOBp14meB0-WIPnuO8UPQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "http://localhost:5000/purchases"
 							},
 							"response": []
 						}
