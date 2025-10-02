@@ -13,6 +13,7 @@ const userRoutes = require('./routes/userRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const purchaseRoutes = require('./routes/purchaseRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const { generalLimiter, authLimiter } = require('./middlewares/rateLimiter');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,8 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(generalLimiter);
+app.use('/auth', authLimiter, authRoutes)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(setupSwagger));
 
