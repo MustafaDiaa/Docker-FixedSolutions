@@ -99,7 +99,7 @@ const swaggerOptions = {
       { bearerAuth: [] }
     ]
   },
-  apis: [__dirname + '/routes/*.js'], // ensure correct path
+  apis: [__dirname + '/routes/*.js'],
 };
 
 module.exports = swaggerJsDoc(swaggerOptions);

@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const swaggerUi = require('swagger-ui-express');
 const setupSwagger = require('./swagger');
+const xss = require('xss-clean');
+const helmet = require('helmet');
 
 const connectDB = require('./config/db');
 
@@ -23,6 +25,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(generalLimiter);
 app.use('/auth', authLimiter, authRoutes)
+app.use(xss());
+app.use(helmet());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(setupSwagger));
 

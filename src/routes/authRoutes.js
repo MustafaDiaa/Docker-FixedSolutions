@@ -92,7 +92,6 @@ router.post('/signup', validate(signupSchema), authController.signup);
 router.get('/confirm-email', authController.confirmEmail);
 router.post('/login', validate(loginSchema), authController.login);
 router.post('/refresh-token', validate(tokenSchema), authController.refreshToken);
-router.post('/logout', validate(tokenSchema), authController.logout);
 router.post('/request-password-reset', validate(requestPasswordResetSchema), authController.requestPasswordReset);
 router.post('/reset-password', validate(resetPasswordSchema), authController.resetPassword);
 

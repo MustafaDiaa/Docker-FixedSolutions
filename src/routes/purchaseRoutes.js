@@ -3,8 +3,6 @@ const router = express.Router();
 const purchaseController = require('../controllers/purchaseController');
 const authorize = require('../middlewares/authorize');
 const validate = require('../middlewares/validate');
-const { createBookSchema, updateBookSchema } = require('../validators/bookValidator');
-
 
 /**
  * @swagger

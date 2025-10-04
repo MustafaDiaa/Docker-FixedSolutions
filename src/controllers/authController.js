@@ -134,17 +134,6 @@ const refreshToken = asyncHandler(async (req, res) => {
     return res.json({ accessToken: newAccessToken });
 })
 
-const logout = asyncHandler(async (req, res) => {
-    const token = req.cookies?.refreshToken || req.body.refreshToken;
-    if (token) {
-      // remove token from user
-      await User.updateOne({}, { $pull: { refreshTokens: { token } } });
-    }
-
-    res.clearCookie('refreshToken');
-    return res.json({ message: 'Logged out' });
-});
-
 const requestPasswordReset = asyncHandler(async (req, res) => {
     const { email } = req.body;
 
